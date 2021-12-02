@@ -43,7 +43,7 @@ function SearchedUsers() {
             <div style={{marginTop:'1%'}} >
             <Jumbotron className="jumbo" fluid>
                 <Container>
-                <img width="100" height="100" style={{position:'relative', left:'-140%', top:'-50%' ,}} src={'/content/'+user.propic}></img><a className="title" href={'/profile/'+user._id}>{user.firstname+''+user.lastname}</a>
+                <img width="100" height="100" style={{position:'relative', left:'-140%', top:'-50%' ,}} src={user.propic}></img><a className="title" href={'/profile/'+user._id}>{user.firstname+''+user.lastname}</a>
                 </Container>
             </Jumbotron></div>
             ))}

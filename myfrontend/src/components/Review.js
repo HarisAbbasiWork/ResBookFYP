@@ -170,7 +170,7 @@ function Review({email2, userID}) {
           <MDBCardBody>
             <div className="content" >
             <img
-                src={'/content/'+item.userid.propic}
+                src={item.userid.propic}
                 alt=""
                 height={40}
                 className="rounded-circle avatar-img z-depth-1-half"
@@ -199,7 +199,7 @@ function Review({email2, userID}) {
             {item.comments.map(comment=>(
                 <div style={{backgroundColor:'#f2f4f6', marginTop:'1%'}}>
                   <img
-                  src={'/content/'+comment.user.propic}
+                  src={comment.user.propic}
                   alt=""
                   height={40}
                   

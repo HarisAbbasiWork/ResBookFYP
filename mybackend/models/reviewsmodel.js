@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
     "resname": String,
     "placeid":String, 
     "date":String,
-    "rate":String,
+    "rate":Number,
     "tag": String,
     "review": String,
     "userid": {type: mongoose.Schema.Types.ObjectId,

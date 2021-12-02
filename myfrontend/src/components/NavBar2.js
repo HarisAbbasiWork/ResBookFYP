@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import {Navbar,NavItem, NavDropdown} from 'react-bootstrap'
+import {Navbar,NavItem, NavDropdown, Dropdown, DropdownButton} from 'react-bootstrap'
 import Nav from 'react-bootstrap/Nav'
 import axios from 'axios'
 import './comsCSS.css'
@@ -12,7 +12,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { faUserAlt, faSignInAlt, faUserLock, faHome, faUsers, faChartLine, faBell, faFlagCheckered } from '@fortawesome/free-solid-svg-icons'
+import { faUserAlt, faSignInAlt, faUserLock, faHome, faUsers, faChartLine, faBell, faFlagCheckered, faUtensils, faGlobe } from '@fortawesome/free-solid-svg-icons'
 function NavBar2({userID,logout,userPic, islogged, user2, inputvalue, setInputvalue}) {
     let history = useHistory();
     const [FR, setFR]= useState([])
@@ -75,7 +75,7 @@ function NavBar2({userID,logout,userPic, islogged, user2, inputvalue, setInputva
     const searchOptions = {
       location: new window.google.maps.LatLng(33, 73),
       radius: 2000
-    }
+    } 
     const handleInput = async value =>{
       console.log(value)
       const placedetails= await geocodeByAddress(value)
@@ -153,15 +153,14 @@ function NavBar2({userID,logout,userPic, islogged, user2, inputvalue, setInputva
                           </div>
                         </div>
                         )}</PlacesAutocomplete>
-                        {islogged==="true"?
-                        <Form inline>
-                    <FormControl style={{backgroundColor:'white',borderRadius:'12px',border:'none', marginLeft:'22%', height:'0.5%'}} onChange={onChangeValue} type="text" placeholder="Search User" className="mr-sm-2" />
-                  </Form>:null}
+                        
                   
-                  <Nav style={{marginLeft:islogged==="true"?"19%":"30%"}} className="mr-auto">
+                  <Nav style={{marginLeft:islogged==="true"?"30%":"30%"}} className="mr-auto">
                     <Nav.Link style={{color: 'white', fontSize:"20px"}} onClick={openhome}><FontAwesomeIcon icon={faHome} color="white" /></Nav.Link>
                     <Nav.Link style={{color: 'white', marginLeft:"10%" , fontSize:"20px"}} href={'/myfriends'}><FontAwesomeIcon icon={faUsers} color="white" /></Nav.Link>
-                    <Nav.Link style={{color: 'white', marginLeft:"10%" , fontSize:"20px"}} onClick={openhome}><FontAwesomeIcon icon={faChartLine} color="white" /></Nav.Link>
+                    <Nav.Link style={{color: 'white', marginLeft:"10%" , fontSize:"20px"}} href={'/trends'}><FontAwesomeIcon icon={faChartLine} color="white" /></Nav.Link>
+                    <Nav.Link style={{color: 'white', marginLeft:"10%" , fontSize:"20px"}} href={'/restaurants'}><FontAwesomeIcon icon={faUtensils} color="white" /></Nav.Link>
+                    <Nav.Link style={{color: 'white', marginLeft:"10%" , fontSize:"20px"}} href={'/nearbyrestaurants'}><FontAwesomeIcon icon={faGlobe} color="white" /></Nav.Link>
                     </Nav>
                   {islogged==="true" 
                   ? null
@@ -174,24 +173,25 @@ function NavBar2({userID,logout,userPic, islogged, user2, inputvalue, setInputva
                   
                   {islogged==="true"
                   ?<Nav.Link onClick={openProfile} style={{color: 'white'}} ><img
-                  src={'/content/'+userPic}
+                  src={userPic}
                   alt=""
                   height={30}
                   style={{marginRight:"10px"}}
                   className="rounded-circle avatar-img z-depth-1-half"
                 />{user2}</Nav.Link>
                   :null}
+                  {islogged==="true"?<NavDropdown  style={{color: 'white'}} id="collasible-nav-dropdown">
+                      <NavDropdown.Item eventKey="4.1"  onClick={logout}>Logout</NavDropdown.Item>
+                      <NavDropdown.Item eventKey="4.2" onClick={opensettings}>Account Setting</NavDropdown.Item>
+                      
+                      </NavDropdown>
+                      :<Nav.Link style={{color: 'white'}} to="/sign-in" href="/sign-in"><FontAwesomeIcon icon={faSignInAlt} color="white" /> Signin</Nav.Link>}
                   {islogged==="true"
                   ?<Nav.Link style={{color: 'white'}} onClick={openN} ><FontAwesomeIcon icon={faBell} color="white" /></Nav.Link>
                   :null}
                     
                     
-                    {islogged==="true"?<NavDropdown style={{color: 'white'}} id="nav-dropdown">
-                      <NavDropdown.Item eventKey="4.1" onClick={logout}>Logout</NavDropdown.Item>
-                      <NavDropdown.Item eventKey="4.2" onClick={opensettings}>Account Setting</NavDropdown.Item>
-                      
-                      </NavDropdown>
-                      :<Nav.Link style={{color: 'white'}} to="/sign-in" href="/sign-in"><FontAwesomeIcon icon={faSignInAlt} color="white" /> Signin</Nav.Link>}
+                    
                   
                     
                   </Nav>
@@ -201,14 +201,26 @@ function NavBar2({userID,logout,userPic, islogged, user2, inputvalue, setInputva
                   <h1 style={{backgroundColor:'#e41749', color:'#fff1c1', textAlign:'center'}}><FontAwesomeIcon icon={faFlagCheckered} color="white" /> Notifications</h1>
                   {notifications.map(notification=>(
                   notification.type=="Post"?<div style={{marginBottom:'4%',  padding:'1%'}} ><img
-                  src={'/content/'+notification.userid.propic}
+                  src={notification.userid.propic}
                   alt=""
                   height={30}
                   style={{marginRight:"10px"}}
                   className="rounded-circle avatar-img z-depth-1-half"
                 /><a style={{ color:'black', padding:'2%', marginTop:'5%'}} href={'/review/'+notification.id}>{notification.userid.firstname+' '+notification.userid.lastname} liked your post</a><br></br></div>:
-                  notification.type=="Request"?<div><a style={{ color:'black', padding:'2%', marginTop:'5%'}} href={'/profile/'+notification.id}>{notification.userid.firstname+' '+notification.userid.lastname} sent you a friend request</a><br></br></div>:
-                  <div><a style={{ color:'black', padding:'2%', marginTop:'5%'}} href={'/profile/'+notification.id}>{notification.userid.firstname+' '+notification.userid.lastname} accepted your a friend request</a><br></br></div>
+                  notification.type=="Request"?<div><img
+                  src={notification.userid.propic}
+                  alt=""
+                  height={30}
+                  style={{marginRight:"10px"}}
+                  className="rounded-circle avatar-img z-depth-1-half"
+                /><a style={{ color:'black', padding:'2%', marginTop:'5%'}} href={'/profile/'+notification.id}>{notification.userid.firstname+' '+notification.userid.lastname} sent you a friend request</a><br></br></div>:
+                  <div><img
+                  src={notification.userid.propic}
+                  alt=""
+                  height={30}
+                  style={{marginRight:"10px"}}
+                  className="rounded-circle avatar-img z-depth-1-half"
+                /><a style={{ color:'black', padding:'2%', marginTop:'5%'}} href={'/profile/'+notification.id}>{notification.userid.firstname+' '+notification.userid.lastname} accepted your a friend request</a><br></br></div>
                   ))}
                   
                 </div>:<div style={{float:'right',backgroundColor:'white', width:'20%'}}><a>No Notifications</a></div>:null}

@@ -11,14 +11,14 @@ var restaurantModel = require('../models/restaurantmodel')
 
 exports.signup = function(req,res){ 
     var countValue = req.body;
-  console.log(req.file.filename)
-  console.log("CountValue is", countValue.email, countValue.fname, countValue.lname);
+  
+  console.log("CountValue is", countValue);
   bcrypt.hash(req.body.pass, saltRounds, async (err, hash) => {
   var data = { 
     "firstname": countValue.fname, 
     "lastname": countValue.lname,
     "email":countValue.email, 
-    "propic":req.file.filename,
+    "propic":countValue.fileurl,
     "password":hash, 
     "DOB": countValue.DOB,
     "friends":[],
@@ -329,7 +329,7 @@ exports.handlefriendbutton = async function(req,res){
 exports.notifications = async function(req,res){ 
   let id = req.params.userid;
   const notifications=await notificationModel.find({"sentTo": ObjectId(req.params.userid)}).populate('userid');
-  res.json(notifications)
+  res.json(notifications.reverse())
 
     
 }

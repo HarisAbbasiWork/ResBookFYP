@@ -313,7 +313,7 @@ function Profile({email2, userID}) {
     
     return (
         <div style={{alignItems: 'center',justifyContent: 'center', marginTop:'1%' }} >
-            <div style={{textAlign: 'center'}}><img width="100" height="100" src={'/content/'+propic}></img></div>
+            <div style={{textAlign: 'center'}}><img width="100" height="100" src={propic}></img></div>
             <h1 style={{textAlign:'center'}}>{name}</h1>
             
             {email2==="Login"||profilestatus==="My Profile"?null
@@ -369,7 +369,7 @@ function Profile({email2, userID}) {
                   <MDBCardBody>
                     <div className="content">
                     <img
-                        src={'/content/'+item.userid.propic}
+                        src={propic}
                         alt=""
                         height={40}
                         className="rounded-circle avatar-img z-depth-1-half"
@@ -397,7 +397,7 @@ function Profile({email2, userID}) {
                     {item.comments.map(comment=>(
                 <div style={{backgroundColor:'#f2f4f6', marginTop:'1%'}}>
                   <img
-                  src={'/content/'+comment.user.propic}
+                  src={comment.user.propic}
                   alt=""
                   height={40}
                   

@@ -42,7 +42,7 @@ function ProfileReviews({id,name}) {
         <MDBCardBody>
             <div className="content">
             <img
-                src={'/content/'+item.userpropic}
+                src={item.userpropic}
                 alt=""
                 height={40}
                 className="rounded-circle avatar-img z-depth-1-half"

@@ -39,7 +39,10 @@ exports.review =async function(req,res){
         model: "details"
       }
      });
-  console.log(reveiw)
+  console.log(reveiw.date.split('/'))
+  const yeartime=reveiw.date.split('/')
+  console.log(" Month: ",yeartime[0])
+  const month=yeartime[0]
   res.json(reveiw)
 
     

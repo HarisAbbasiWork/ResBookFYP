@@ -8,24 +8,36 @@ import { faStar, faLocationArrow, faTag, faMapMarkerAlt, faTrashAlt } from '@for
 import { tags } from "./tags";
 import ReactStars from 'react-stars'
 import axios from 'axios'
-
+import Font, { Text } from 'react-font' 
 function ShowReviews({test,userID, islogged, email2}) {
     const [items, setItems]=useState([])
     const [items2, setItems2]=useState([])
+    const [resByTags, setresByTags]=useState(null)
     const [writingcomment, setWritingcomment]=useState([])
     const [test2, setTest2]=useState(test)
     const [update, setUpdate]=useState(0)
-    const [option, setOption]=useState('All')
+    const [option, setOption]=useState('Select Tag')
   
     let history = useHistory();
     
     const handleChange=(tag) =>{
       setOption(tag)
-      if(tag=='All'){
+      if(tag=='All'||tag=='Select Tag'){
         setItems2(items)
     }else{
       setItems2(items.filter(item=>item.tag == tag))
     }
+    axios.get('http://localhost:5000/resByTags/'+tag)
+            .then(response => {
+              console.log(response.data)
+                setresByTags(response.data);
+                console.log("API got all reviews bro")
+                
+            })
+            .catch(function (error){
+                console.log(error);
+                console.log("Aey te error hai bro")
+            })
 
       }
       const onChange=(e, id) =>{
@@ -183,18 +195,15 @@ const isindislikedby=(dislikes)=>{
         <div> 
           
                    
-          {tags.map(tag=>(
-                <button
-                type="button"
-                className="btn toggle-btn"
-                
-                style={{backgroundColor: tag===option?'#990505':null , border:'2px solid #6F020A',color:tag===option? '#FFFFFF ':null, width:'96px', marginTop:"2px",}}
-                onClick={()=>{handleChange(tag)}}
-              >
-                <span>{tag}</span>
-              </button>
-              
-            ))}
+          
+            <div class="select" style={{display:'inline-block', marginLeft:'46%'}}>
+                <Font family='Raleway'>
+                    <select name="Tags" value={option} style={{backgroundColor:'#990505', color:'#fff7f7',border:'2px solid #6F020A', paddingRight:'20%', width:option==='Select Tag'?'120%':'110%', fontSize:'200%'}} onChange={(e)=>handleChange(e.target.value)} >
+                        <option value='Select Tag'>Select Tag</option>
+                        {tags.map(tag=> <option value={tag}>{tag}</option>)}
+                    </select>
+                </Font>
+                </div>
           <h3 style={{borderLeft: '6px solid #4d0000', backgroundColor: '#990505', color: '#FFFFFF' , marginBottom:"0px" }}>Recent Reviews </h3>
           
           <Jumbotron style={{height:'100%',
@@ -204,14 +213,20 @@ const isindislikedby=(dislikes)=>{
                 backgroundSize: '100%',
                 backgroundRepeat: 'repeat',
                 backgroundHeight: '100%',}}>
-
+                  {option!='All'&&option!='Select Tag'?<div id="carted2">
+                  <div style={{backgroundColor:'white'}}><a id="resbytagheader">{"Top Restaurants By Tag "+option}
+                  </a></div>
+                  {resByTags!=null?resByTags.map((res,index)=>(
+                <div><a id="listitems" href={'/restaurant/'+res.restaurant_doc[0].placeid}>{index+1+' '+res.restaurant_doc[0].name}</a><br/></div>
+            )):null}
+                  </div>:null}
                 {items2.map(item=>(<div style={{marginLeft: '35%', marginRight: '35%'}} key={item.id}><MDBRow>
       <MDBCol>
         <MDBCard news className="my-5">
           <MDBCardBody>
             <div className="content" >
             <img
-                src={'/content/'+item.userid.propic}
+                src={item.userid.propic}
                 alt=""
                 height={40}
                 className="rounded-circle avatar-img z-depth-1-half"
@@ -240,7 +255,7 @@ const isindislikedby=(dislikes)=>{
             {item.comments.map(comment=>(
                 <div style={{backgroundColor:'#f2f4f6', marginTop:'1%'}}>
                   <img
-                  src={'/content/'+comment.user.propic}
+                  src={comment.user.propic}
                   alt=""
                   height={40}
                   

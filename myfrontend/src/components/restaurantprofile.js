@@ -1,8 +1,9 @@
 import React, {useState,useEffect} from 'react'
 import {useParams,withRouter, useHistory} from "react-router-dom";
-import { geocodeByPlaceId } from 'react-places-autocomplete';
+import { geocodeByPlaceId, getLatLng } from 'react-places-autocomplete';
 import {  MDBRow,  MDBCard, MDBCardBody, MDBBtn, MDBIcon, MDBCol, MDBCardImage, MDBInput} from "mdbreact";
 import Button from 'react-bootstrap/Button'
+import Carousel from 'react-bootstrap/Carousel'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import {GeoAlt, GetAlt } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +11,8 @@ import { faStar,faTag, faTrashAlt, faInfoCircle, faGrinAlt, faSmile, faAngry } f
 import axios from 'axios'
 import AddReview from './AddReview';
 import { isFragment } from 'react-mui-multiselect-dropdown';
+import GoogleMapReact from 'google-map-react';
+import Marker from './Marker'
 import "./loginn.css";
 function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
     let params = useParams();
@@ -20,23 +23,40 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
     const [selectedSentiment, setSelectedSentiment] = useState("")
     const [resname, setResname]=useState()
     const [address, setAddress]=useState()
+    const [besttag, setBesttag]=useState()
+    const [worsttag, setWorsttag]=useState()
+    const [message, setMessage]=useState()
     const [update, setUpdate]=useState(0)
     const [writingcomment, setWritingcomment]=useState([])
     const [personalizedrating, setPersonalizedrating]=useState(0)
     const [generalizedrating, setgeneralizedrating]=useState(0)
+    const [googlerating, setGooglerating]=useState(0)
     const [ishide, setIshide]=useState(true)
     const [res, setRes]= useState([])
+    const [location, setLocation]= useState(null)
+    const [photos, setPhotos]= useState([])
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex, e) => {
+      setIndex(selectedIndex);
+    };
     const getProfile=(placeid, restaurant)=>{
         axios.get('http://localhost:5000/restaurant/'+placeid)
             .then(response => {
                 console.log("Result From Backend",response.data)
-                setResname(response.data.name)
-                setAddress(response.data.address)
+                setResname(response.data.resprofile.name)
+                setAddress(response.data.resprofile.address)
                 setRes({
-                  name:response.data.name,
+                  name:response.data.resprofile.name,
                   placeid:placeid,
-
                 })
+                setLocation({
+                  lat:response.data.data.result.geometry.location.lat,
+                  lng:response.data.data.result.geometry.location.lng
+                })
+                setPhotos(response.data.data.result.photos)
+                console.log(response.data.data.result.photos)
+                setGooglerating(response.data.data.result.rating)
                 
 
                 
@@ -46,6 +66,20 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
                 console.log("Aey te error hai bro")
             })
     }
+    const getResTags=(placeid)=>{
+      axios.get('http://localhost:5000/getTags/'+placeid)
+          .then(response => {
+              console.log("Tags Result From Backend",response.data)
+              setBesttag(response.data.besttag)  
+              setWorsttag(response.data.worsttag)
+              setMessage(response.data.message)
+              
+          })
+          .catch(function (error){
+              console.log(error);
+              console.log("Aey te error hai bro")
+          })
+  }
     const checkIfExists=(placeid, address)=>{
       var restaurant= inputvalue.split(',');
       console.log("Restarant name from input value split main",restaurant[0])
@@ -58,6 +92,7 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
         console.log(response.data)
         getProfile(params.placeid,restaurant[0])
         getReviews(params.placeid)
+        getResTags(params.placeid)
 
           
       })
@@ -233,7 +268,8 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
           if(restaurant.length>1){
           console.log("We opening profile "+ params.placeid, inputvalue)
           geocodeByPlaceId(params.placeid)
-          .then(results => checkIfExists(params.placeid,results[0].formatted_address))
+          .then(results => {
+            checkIfExists(params.placeid,results[0].formatted_address)})
           .catch(error => console.error(error));
           }
         }else{
@@ -242,6 +278,7 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
             getProfile(params.placeid,restaurant[0])
             console.log("Restaurant ",restaurant[0])
             getReviews(params.placeid)
+            getResTags(params.placeid)
             setRes({
               name:restaurant[0],
               placeid:params.placeid,
@@ -252,6 +289,7 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
         }
         
         
+        
 
         
         
@@ -260,15 +298,25 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
         
         
     }, [params, update])
+    const defaultProps = {
+      center: {
+        lat: location!=null?location.lat:33.6907514,
+        lng: location!=null?location.lng:73.0410963
+      },
+      zoom: 16
+    };
     return (
         <div> 
 
             <div >
             <Jumbotron id="jback" style={{}}>
-              
-                <h1 style={{display:'inline-block'}}>{resname}</h1><p> Overall-Rating: <FontAwesomeIcon icon={faStar} color="yellow" /> {generalizedrating} </p>
+                {worsttag==null?<a id="besttag1">{message}</a>:<a id="besttag1">Worst Tag: {worsttag}</a>}
+                {besttag==null?<a id="besttag">{message}</a>:<a id="besttag">Best Tag: {besttag}</a>}
+                <h1 style={{display:'inline-block'}}>{resname}</h1>
+                <p> Overall-Rating: <FontAwesomeIcon icon={faStar} color="yellow" /> {generalizedrating==null?"No Resbook User Rated This Restaurant Yet":generalizedrating} </p>
                 {islogged=="true"?personalizedrating?<p> Personalized Rating: <FontAwesomeIcon icon={faStar} color="yellow" />  {personalizedrating} </p>:<p>No Friend Rated This Restaurant</p>:null}
-                <a><GeoAlt/>{address}</a>
+                <p> Google Rating: <FontAwesomeIcon icon={faStar} color="yellow" />  {googlerating} </p>
+                {location==null?null:<a><GeoAlt/>{address+" Lat: "+location.lat}</a>}
                 <a style={{float:"right"}}>Price</a><br></br>
                 <a style={{float:"right"}}>$$$$</a>
               
@@ -289,7 +337,35 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
                 //backgroundColor:"transparent",
                 marginTop:"0px",
               }}> */}
-              
+              <Carousel style={{height:"30%", width:"60%", marginLeft:"20%"}} activeIndex={index} onSelect={handleSelect}>
+   {photos.map((photo,index)=>(
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=AIzaSyCpYoojDkdgcjj-P8bBP0fQ-Fau-UPdYCc`}
+          alt="First slide"
+          style={{height:"400px", width:"800px"}}
+        />
+        <Carousel.Caption>
+          <h3>{resname} Gallery {index+1}</h3>
+        </Carousel.Caption>
+      </Carousel.Item>
+   ))}
+      
+    </Carousel>
+              <div style={{ height: '100vh', width: '60%%' }}>
+              {location==null?null:<GoogleMapReact
+   defaultCenter={defaultProps.center}
+   defaultZoom={defaultProps.zoom}
+ >
+               <Marker
+              lat={location.lat}
+              lng={location.lng}
+              name={resname}
+              color="blue"
+            /> 
+ </GoogleMapReact>}
+ </div>
             <h3 style={{borderLeft: '6px solid #1423A4', backgroundColor: '#990505', color: '#FFFFFF' }}>Restaurant Reviews </h3>
           
             
@@ -318,7 +394,7 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
           <MDBCardBody>
             <div className="content">
             <img
-                src={'/content/'+item.userid.propic}
+                src={item.userid.propic}
                 alt=""
                 height={40}
                 className="rounded-circle avatar-img z-depth-1-half"
@@ -346,7 +422,7 @@ function Restaurantprofile({email2,userID, islogged, inputvalue, searchres}) {
             {item.comments.map(comment=>(
                 <div style={{backgroundColor:'#f2f4f6', marginTop:'1%'}}>
                   <img
-                  src={'/content/'+comment.user.propic}
+                  src={comment.user.propic}
                   alt=""
                   height={40}
                   

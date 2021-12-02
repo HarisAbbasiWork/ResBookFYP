@@ -1,12 +1,177 @@
+#jback {
+    background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, .9)), url("https://img3.stockfresh.com/files/b/balabolka/m/27/7526458_stock-vector-cartoon-cute-hand-drawn-fast-food-seamless-pattern.jpg");
+}
 
+#besttag {
+    height: 15%;
+    border-radius: 22px;
+    background-color: rgb(153, 5, 5);
+    color: aliceblue;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-color: #fffb00;
+    float: right;
+}
 
+#besttag1 {
+    height: 15%;
+    border-radius: 22px;
+    background-color: rgb(153, 5, 5);
+    color: aliceblue;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-color: #fffb00;
+    float: right;
+    position: relative;
+    top: -8%;
+}
 
+#trendback {
+    /* position: fixed; */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 5;
+    z-index: 10;
+    background: url("https://cdn.vox-cdn.com/uploads/chorus_image/image/57032609/dishes_spread_ci_siamo.278.jpg");
+}
 
+#trendheader {
+    font-size: 49px;
+    line-height: 56px;
+    color: rgb(255, 253, 253);
+    font-style: normal;
+    font-weight: 700;
+    font-family: Paralucent;
+    background-color: initial;
+    text-transform: none;
+    margin-bottom: 24px;
+    text-align: center;
+}
 
+#carted {
+    line-height: 24px;
+    border: none;
+    background-color: rgb(236, 72, 31);
+    text-transform: uppercase;
+    width: 297px;
+    padding: 15px 0px;
+    place-content: center space-evenly;
+    margin: 0px auto -26px;
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+    border-radius: 2%;
+}
 
-  #jback{
-  
-      background: linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,.9)), url("https://img3.stockfresh.com/files/b/balabolka/m/27/7526458_stock-vector-cartoon-cute-hand-drawn-fast-food-seamless-pattern.jpg");
+#carted2 {
+    line-height: 24px;
+    border: none;
+    background-color: rgb(236, 72, 31);
+    text-transform: uppercase;
+    width: 297px;
+    padding: 15px 0px;
+    place-content: center space-evenly;
+    margin: 0px auto -26px;
+    position: absolute;
+    top: 28%;
+    cursor: pointer;
+    z-index: 2;
+    animation: mymove 5s infinite;
+    border-radius: 2%;
+}
 
-     
-  }
+#listitems {
+    font-size: 15px;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 30%;
+    font-family: SourceCodePro-Semibold;
+}
+
+#resbytagheader {
+    font-size: 16px;
+    text-align: center;
+    color: rgb(8, 8, 8);
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 0%;
+    font-family: SourceCodePro-Semibold;
+}
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    color: #0d6efd;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    padding: 0.375rem 0.75rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+@keyframes mymove {
+    from {
+        top: 28%;
+    }
+    to {
+        top: 39%
+    }
+}
+
+#headerdiv {
+    background-color: rgb(236, 72, 31, .4);
+}
+
+#getresbutton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 17px 46px;
+    position: absolute;
+    width: 205px;
+    height: 76px;
+    left: 767px;
+    top: 147px;
+    /* Gray 6 */
+    background: #ffffff;
+    /* Shadow Group */
+    box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12), 0px 18px 88px -4px rgba(24, 39, 75, 0.14);
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+#getrestext {
+    position: static;
+    left: 22.44%;
+    right: 22.44%;
+    top: 22.37%;
+    bottom: 22.37%;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 42px;
+    display: flex;
+    align-items: center;
+    /* Gray 1 */
+    color: #333333;
+    /* Inside Auto Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 10px;
+}

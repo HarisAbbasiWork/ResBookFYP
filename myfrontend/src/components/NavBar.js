@@ -25,6 +25,10 @@ import Review from './Review';
 import ForgetPassword from './ForgetPassword';
 import ResetPassword from './ResetPassword';
 import SearchedUsers from './SearchedUsers';
+import CloudnarySignUp from './CloudnarySignUp';
+import Trends from './Trends';
+import Restaurants from './Restaurants';
+import NearbyRestaurants from './NearbyRestaurants';
 const data = JSON.parse(localStorage.getItem('data'))
 console.log("Local Storage: ",data)
 function NavBar() {
@@ -73,15 +77,15 @@ function NavBar() {
                       ? <Button href="/sign-in" style={{marginLeft: '500px',borderRadius: '25px', backgroundColor:'#990505'}} ><FontAwesomeIcon icon={faLocationArrow} color="white" /> Click Here To Login So You Can Add Review</Button>
                       :null
                       } */}
+                       <ShowReviews test={test} userID={userID} islogged={islogged} email2={email2}/>
                       
-                      <ShowReviews test={test} userID={userID} islogged={islogged} email2={email2}/>
                       </Route>
                       
                          <Route path="/sign-in" >
                         <LoginForm  setEmail2={setEmail2} setUserPic={setUserPic} setUserID={setUserID} setIslogged={setIslogged} setUser2={setUser2} setFriends={setFriends} user2={user2}/>
                          </Route>
                          
-                      <Route path="/sign-up" component={SignupForm} />
+                      <Route path="/sign-up" component={CloudnarySignUp} />
                       
                       <Route path="/restaurant/:placeid" >
                         <Restaurantprofile email2={email2} userID={userID} islogged={islogged} inputvalue={inputvalue} />
@@ -90,6 +94,9 @@ function NavBar() {
                         <EditProfile email2={email2} />
                       </Route>
                       <Route path="/forgetpassword" component={ForgetPassword}/>
+                      <Route path="/trends" component={Trends}/>
+                      <Route path="/restaurants" component={Restaurants}/>
+                      <Route path="/nearbyrestaurants" component={NearbyRestaurants}/>
                       <Route path="/reset/:token" component={ResetPassword}/>
                       <Route path="/review/:reviewid" >
                         <Review email2={email2} userID={userID} />

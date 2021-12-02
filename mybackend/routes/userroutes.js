@@ -14,7 +14,7 @@ const multer = require('multer')
 const upload = multer({ storage: storage }).single('file');
  
     
-    router.post('/sign-up',upload,user_controller.signup)
+    router.post('/sign-up',user_controller.signup)
     router.post('/sign-in',user_controller.signin)
     router.post('/updatesetting',upload,user_controller.updatesettings)
     router.post('/getuserIDName',user_controller.getuserIDName)

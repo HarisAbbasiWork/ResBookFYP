@@ -65,7 +65,7 @@ function ResetPassword(props) {
         
         console.log("Reset Password: ", token)
         
-      });
+      },[]);
     
     return (
         
