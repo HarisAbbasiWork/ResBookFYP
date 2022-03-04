@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "react-font": "^1.2.1"
+    "bootstrap": "^5.1.3",
+    "react-font": "^1.2.1",
+    "react-rating-stars-component": "^2.2.0"
   }
 }

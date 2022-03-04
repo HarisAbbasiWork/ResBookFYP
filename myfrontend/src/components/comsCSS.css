@@ -37,12 +37,28 @@
         left: -60px;
         color:#ffffff;
       }
+      .titleNF {
+        font-family: Optima;
+        font-size: 40px;
+        position: relative;
+        top: -115px;
+        left: -60px;
+        color:#ffffff;
+      }
+      .titlefr {
+        font-family: Optima;
+        font-size: 30px;
+        position: relative;
+        top: -115px;
+        left: -60px;
+        color:#ffffff;
+      }
       .jumbo2 {
         background-size: cover;
         background-color: #990505;
-        width: 30%;
+        width: 55%;
         position: relative;
-        left: 35%;
+        left: 24%;
         margin-top: 1%;
         border-radius: 5%;
         text-align: center;
@@ -52,6 +68,7 @@
         font-family: Optima;
         font-size: 40px;
         color:#ffffff;
+        cursor: pointer;
       }
       .container {
         width: 150px;
@@ -62,10 +79,22 @@
         max-width: 100%;
       }
       .color-nav{
-        background-color:#990505;
-
+        background: linear-gradient(270deg, #990505 0%, #800505 100%);
+      }
+      .navbar{
+        padding:0.7%
       }
       .jumbo {
+        background-size: cover;
+        background-color: #990505;
+        width: 30%;
+        position: relative;
+        left: 35%;
+        margin-top: 1%;
+        border-radius: 5%;
+       
+      }
+      .jumbofr2 {
         background-size: cover;
         background-color: #990505;
         width: 30%;
@@ -78,6 +107,7 @@
       #ccc{margin-left: 46%;
         text-align: center;
         line-height: 50px;
+        cursor: pointer;
         }
         #search{
           width: 388px;
@@ -85,7 +115,7 @@
           margin-left: 40%;
           background-color: #fdfdfd;
           text-align: center;
-          color: #990505;
+          color: #0a0a0a; 
           
           }
           #search::placeholder{
@@ -99,13 +129,13 @@
             
             /* Gray / 600 */
             
-            color: #8E8F95
+            color: #958e8e
           
           }
           #newfriends{
             width: 100%;
             height: 88px;
-            background: linear-gradient(270deg, #2D348D 0%, #84328A 100%);
+            background: linear-gradient(270deg, #990505 0%, #720202 100%);
             box-shadow: 0px 0px 1px rgba(40, 41, 61, 0.04), 0px 3px 6px rgba(96, 97, 112, 0.08);
             font-family: Proxima Nova;
             font-style: normal;
@@ -114,6 +144,25 @@
             line-height: 150%;
             text-align: center;
             color: #FFFFFF;
+          }
+          #ressearchsugg{
+            
+            top: 100%;
+            box-shadow: 5px 5px 5px black
+          }
+          #friendstabdiv{
+            display:'flex';
+  
+            background-image: url("https://res.cloudinary.com/resbook/image/upload/v1639317820/newbg_ru5lcw.jpg");
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            
+          }
+          .btnsrow{
+            
           }
           
           

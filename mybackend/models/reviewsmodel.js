@@ -6,6 +6,8 @@ var Schema = mongoose.Schema;
     "placeid":String, 
     "date":String,
     "rate":Number,
+    "tagrate":Number,
+    "ambiencerate":Number,
     "tag": String,
     "review": String,
     "userid": {type: mongoose.Schema.Types.ObjectId,

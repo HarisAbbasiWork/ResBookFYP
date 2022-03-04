@@ -27,4 +27,8 @@ const upload = multer({ storage: storage }).single('file');
     router.post('/nextforgetpassword', user_controller.nextforgetpassword)
     router.post('/googlesign-in',user_controller.googlelogin)
     router.post('/additionalsign-up',upload,user_controller.additionalsignup)
+    router.post('/addtofav',user_controller.addtofav)
+    router.post('/checkinfav',user_controller.checkinfav)
+    router.post('/removefromfav',user_controller.removefromfav)
+    router.get('/getfavorites/:userid',user_controller.getfavorites)
            module.exports = router;

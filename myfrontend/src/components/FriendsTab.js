@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import './comsCSS.css'
+import ShowFriends2 from './ShowFriends2';
 function FriendsTab({id,islogged}) {
     const [friends, setFriends] = useState([])
     const [friends2, setFriends2] = useState([])
@@ -84,23 +85,31 @@ function FriendsTab({id,islogged}) {
         }
         
     }, [])
+    const Backgroundimg="https://res.cloudinary.com/resbook/image/upload/v1639317820/newbg_ru5lcw.jpg"
     return (
         <div>
+        <div id="friendstabdiv" style={{display:'flex' }}>
+            <div style={{width:'50%'}}>
             <h3 id="newfriends">{friends?friends.length:null} Friends</h3>
-            <div><FontAwesomeIcon icon={faSearch} size="2x" style={{position:'relative', left:'42%', top:'14%'}} color="#5B5C60" /><input type="text" id="search" placeholder="Search Friend..." onChange={searchHandler}/></div>
+            <div style={{position:'relative', left:'-15%'}}><FontAwesomeIcon icon={faSearch} size="2x" style={{position:'relative', left:'44%', top:'14%'}} color="#5B5C60" /><input type="text" id="search" placeholder="Search Friend..." onChange={searchHandler}/></div>
             {friends.map(friend=>(
-            <ShowFriends fremail={friend}/>
+            <ShowFriends2 fremail={friend}/>
             ))}
+            </div>
+            <div style={{width:'50%'}}>
             <h3 id="newfriends">Find New Friends</h3>
-            <div><FontAwesomeIcon icon={faSearch} size="2x" style={{position:'relative', left:'42%', top:'2%'}} color="#5B5C60" /><input type="text" id="search" placeholder="Find People..." onChange={searchHandler2}/></div>
+            <div style={{position:'relative', left:'-15%'}}><FontAwesomeIcon icon={faSearch} size="2x" style={{position:'relative', left:'44%', top:'2%'}} color="#5B5C60" /><input type="text" id="search" placeholder="Find People..." onChange={searchHandler2}/></div>
             {users2.map(user=>(
             <div style={{marginTop:'1%'}} >
-            <Jumbotron className="jumbo" fluid>
+            <Jumbotron className="jumbo2" fluid>
                 <Container>
-                <img width="100" height="100" style={{position:'relative', left:'-140%', top:'-50%' ,}} src={user.propic}></img><a className="title" href={'/profile/'+user._id}>{user.firstname+''+user.lastname}</a>
+                <img width="100" height="100" style={{position:'relative', left:'-140%', top:'-50%' ,borderRadius:'50px'}} src={user.propic}></img><a className="titleNF" href={'/profile/'+user._id}>{user.firstname+''+user.lastname}</a>
                 </Container>
             </Jumbotron></div>
             ))}
+            </div>
+            
+        </div>
         </div>
     )
 }

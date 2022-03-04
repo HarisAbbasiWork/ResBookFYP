@@ -1,5 +1,4 @@
 export const tags=["All",
-"American",
 "Dessert",
 "Burger",
 "Desi",

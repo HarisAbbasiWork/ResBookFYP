@@ -21,9 +21,11 @@ app.use(bodyParser.json())
 var reviewroutes1 = require('./routes/reviewroutes');
 var userroutes1 = require('./routes/userroutes');
 var restaurantroutes1 = require('./routes/restaurantroutes');
+var taskroutes1 = require('./routes/taskroutes');
 app.use(reviewroutes1);
 app.use(userroutes1);
 app.use(restaurantroutes1)
+app.use(taskroutes1)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

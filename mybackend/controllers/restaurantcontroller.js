@@ -28,7 +28,8 @@ exports.restaurantexists =async function(req,res){
     console.log("restaurant already exists")
   }
   return res.send({
-    success:true
+    success:true,
+    message:"restaurant added successfully"
   })
       
 }
@@ -90,26 +91,35 @@ exports.getTags = async function(req,res){
     { $sort : { avgrating : -1 }}
  ]).then(async (result) => {
   console.log(result)
-  if(result[0].avgrating>6){
-    console.log("Best tag: ",result[0]._id)
-    besttag=result[0]._id
-
-  }else{
-    console.log("Looks like all tried tags have bad rating of less than 6")
-    console.log("This reataurant tags does get bad reviews")
+  if(result[0]==null){
+    console.log("all null")
     besttag=null
-    message="No Tag has average good rating of more than 6"
-  }
-  const lastindex=result.length-1
-  if(result[lastindex].avgrating<=6){
-    console.log("Worst tag: ",result[0]._id)
-    worsttag=result[0]._id
-  }else{
-    console.log("Looks like all all tried tags have better rating of +6")
-    console.log("This reataurant doesn't get bad reviews")
     worsttag=null
-    message="No Tag has average bad rating of less than 6"
+    message=null
+  }else{
+    if(result[0].avgrating>6){
+      console.log("Best tag: ",result[0]._id)
+      besttag=result[0]._id
+  
+    }else{
+      console.log("Looks like all tried tags have bad rating of less than 6")
+      console.log("This reataurant tags does get bad reviews")
+      besttag=null
+      message="No Tag has average good rating of more than 6"
+    }
+    const lastindex=result.length-1
+    if(result[lastindex].avgrating<=6){
+      console.log("Worst tag: ",result[lastindex]._id)
+      worsttag=result[lastindex]._id
+    }else{
+      console.log("Looks like all all tried tags have better rating of +6")
+      console.log("This reataurant doesn't get bad reviews")
+      worsttag=null
+      message="No Tag has average bad rating of less than 6"
+    }
+
   }
+  
  })
  return res.send({
    besttag,worsttag,message
@@ -118,7 +128,7 @@ exports.getTags = async function(req,res){
 }
 exports.trendingRestaurants = async function(req,res){ 
   await reviewModel.aggregate([
-    { $group: { _id: "$placeid", myCount: { $sum: 1 } } },
+    { $group: { _id: "$placeid", myCount: { $sum: 1 } ,avgRate: { $avg: "$rate" }} },
     {$limit: 10},
     {$lookup:
      {
@@ -127,7 +137,7 @@ exports.trendingRestaurants = async function(req,res){
        foreignField: "placeid",
        as: "inventory_docs"
      }},
-    { $sort : { myCount : -1 }}
+    { $sort : { avgRate : -1 }}
  ]).then(async (result) => {
   
     const filter = {};
@@ -168,23 +178,44 @@ exports.trendingRestaurants = async function(req,res){
     
 }
 exports.resByTags = async function(req,res){ 
+  console.log(req.params.tag)
+  if(req.params.tag=="All"){
+    await reviewModel.aggregate([
+      { $group: { _id: "$placeid", myCount: { $sum: 1 },avgRate: { $avg: "$rate" } } },
+      {$limit: 10},
+      {$lookup:
+       {
+         from: "restaurants",
+         localField: "_id",
+         foreignField: "placeid",
+         as: "restaurant_doc"
+       }},
+      { $sort : { avgRate : -1 }}
+   ]).then(async (result) => {
+     console.log(result)
+    res.json(result)
+   })
+
+  }else{
+    await reviewModel.aggregate([
+      { $match : { tag : req.params.tag } },
+      { $group: { _id: "$placeid", myCount: { $sum: 1 },avgRate: { $avg: "$rate" } } },
+      {$limit: 10},
+      {$lookup:
+       {
+         from: "restaurants",
+         localField: "_id",
+         foreignField: "placeid",
+         as: "restaurant_doc"
+       }},
+      { $sort : { avgRate : -1 }}
+   ]).then(async (result) => {
+     console.log(result)
+    res.json(result)
+   })
+
+  }
   
-  await reviewModel.aggregate([
-    { $match : { tag : req.params.tag } },
-    { $group: { _id: "$placeid", myCount: { $sum: 1 } } },
-    {$limit: 10},
-    {$lookup:
-     {
-       from: "restaurants",
-       localField: "_id",
-       foreignField: "placeid",
-       as: "restaurant_doc"
-     }},
-    { $sort : { myCount : -1 }}
- ]).then(async (result) => {
-   console.log(result)
-  res.json(result)
- })
 }
 exports.allRestaurants = async function(req,res){ 
   console.log(req.params.pagenumber)

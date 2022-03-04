@@ -13,6 +13,8 @@ var Schema = mongoose.Schema;
     "resetTokenExpiration": Date,
     "friends":[String],
     "sentRequests":[String],
-    "recievedRequests":[String]
+    "recievedRequests":[String],
+    "favorites": [{type: mongoose.Schema.Types.ObjectId,
+        ref: 'restaurants'}]
 });
 module.exports = mongoose.model('details', user);

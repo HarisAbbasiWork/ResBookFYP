@@ -57,6 +57,8 @@ function ProfileReviews({id,name}) {
             <div className="social-meta">
               <a>Restaurant: </a><a href="#" onClick={()=>{history.push('/restaurant/'+item.placeid);}}>{item.resname}</a>
               <p>Rated: <FontAwesomeIcon icon={faStar} color="yellow" /> {item.rate}/10 </p>
+              <p>Tag Rated: <FontAwesomeIcon icon={faStar} color="yellow" /> {item.tagrate}/10 </p>
+              <p>Ambience Rated: <FontAwesomeIcon icon={faStar} color="yellow" /> {item.ambiencerate}/10 </p>
               <p>Tag: <FontAwesomeIcon icon={faTag} color="blue" /> {item.tag}</p>
               <p>{item.review}</p>
               <span>

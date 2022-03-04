@@ -10,11 +10,14 @@ import { faStar, faTrashAlt, faGrinAlt, faSmile, faAngry } from '@fortawesome/fr
 import { Button,Jumbotron } from 'react-bootstrap';
 import {  MDBRow,  MDBCard, MDBCardBody, MDBBtn, MDBIcon, MDBCol, MDBCardImage, MDBInput} from "mdbreact";
 import About from './about'
+import Font, { Text } from 'react-font'
+import ProfileFavorites from './ProfileFavorites'
 function Profile({email2, userID}) {
     let history = useHistory();
     let params = useParams();
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
+    const [id, setID] = useState("")
     const [dob, setDob] = useState("")
     const [selectedSentiment, setSelectedSentiment] = useState("")
     const [friends, setFriends] = useState([])
@@ -100,7 +103,7 @@ function Profile({email2, userID}) {
         console.log("We opening profile"+ params.id+"Logged user email: "+email2)
         var ret = params.id.replace('profile','');
         console.log(ret);
-        
+        setID(ret)
         getProfile(ret)
         setShowWhich("posts")
         getReviews()
@@ -300,7 +303,7 @@ function Profile({email2, userID}) {
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '50%'
-    }
+    } 
     if(!isloaded){
       return(
         <div style={{borderLeft: '6px solid #4d0000', display:'inline-block', backgroundColor: '#990505', width:'100%', marginTop:'0%' }}>
@@ -313,7 +316,7 @@ function Profile({email2, userID}) {
     
     return (
         <div style={{alignItems: 'center',justifyContent: 'center', marginTop:'1%' }} >
-            <div style={{textAlign: 'center'}}><img width="100" height="100" src={propic}></img></div>
+            <div id="profileimgdiv" style={{textAlign: 'center'}}><img width="100" height="100" id="profileimgstyle" src={propic}></img></div>
             <h1 style={{textAlign:'center'}}>{name}</h1>
             
             {email2==="Login"||profilestatus==="My Profile"?null
@@ -329,9 +332,10 @@ function Profile({email2, userID}) {
             
             
             <div style={{borderLeft: '6px solid #4d0000', display:'inline-block', backgroundColor: '#990505', color:'#990505', width:'100%', marginBottom:'0%'  }}>
-            <Button onClick={()=>showFR("friends")} style={{backgroundColor: '#990505',display:'inline-block',marginLeft:'7%', height: '34px'}}>View {name} Friends ({friends.length}) </Button>
-            <Button onClick={()=>showFR("posts")} style={{backgroundColor: '#990505',display:'inline-block',marginLeft:'25%', height: '34px'}}>View {name} Reviews </Button>
-            <Button onClick={()=>showFR("about")} style={{backgroundColor: '#990505',display:'inline-block',marginLeft:'25%', height: '34px'}}>View {name} About </Button>
+            <Button onClick={()=>showFR("friends")} style={{display:'inline-block',marginLeft:'6%', height: '34px',backgroundColor:'white', borderRadius:'20px', color:'black',fontWeight:'bold' }}>View {name} Friends ({friends.length}) </Button>
+            <Button onClick={()=>showFR("posts")} style={{backgroundColor:'white', borderRadius:'20px', color:'black',display:'inline-block',marginLeft:'11%', height: '34px', fontWeight:'bold'}}>View {name} Reviews </Button>
+            <Button onClick={()=>showFR("about")} style={{backgroundColor:'white', borderRadius:'20px', color:'black',display:'inline-block',marginLeft:'11%', height: '34px',fontWeight:'bold'}}>View {name} About </Button>
+            <Button onClick={()=>showFR("favorites")} style={{backgroundColor:'white', borderRadius:'20px', color:'black',display:'inline-block',marginLeft:'12%', height: '34px',fontWeight:'bold'}}>View Haris Abbasi Favorites</Button>
             </div>
             <div style={{  
                 height:'100vh',
@@ -360,6 +364,7 @@ function Profile({email2, userID}) {
                 backgroundSize: '100%',
                 backgroundRepeat: 'repeat',
                 backgroundHeight: '100%',}}>
+                  
                   <Button onClick={()=>SetSentimentsl("Positive")} size="lg" style={{marginLeft:'20%',borderRadius:'22px',height: '15%', backgroundColor:selectedSentiment=="Positive"?"#260033":'#990505'}}><FontAwesomeIcon icon={faGrinAlt}  color="white" /> Positive</Button>
                   <Button onClick={()=>SetSentimentsl("Neutral")} size="lg" style={{marginLeft:'20%',borderRadius:'22px',height: '15%', backgroundColor:selectedSentiment=="Neutral"?"#260033":'#990505'}}><FontAwesomeIcon icon={faSmile}  color="white" /> Neutral</Button>
                   <Button onClick={()=>SetSentimentsl("Negative")} size="lg" style={{marginLeft:'20%',borderRadius:'22px',height: '15%', backgroundColor:selectedSentiment=="Negative"?"#260033":'#990505'}}><FontAwesomeIcon icon={faAngry}  color="white" /> Negative</Button>
@@ -382,14 +387,18 @@ function Profile({email2, userID}) {
                   
                   <MDBCardBody>
                     <div className="social-meta">
+                    <Font family='Lato'>
                       <a>Restaurant: </a><a href={'/restaurant/'+item.placeid}>{item.resname}</a>
                       <p>Rated: <FontAwesomeIcon icon={faStar} color="yellow" /> {item.rate}/10 </p>
+                      <p>Tag Rated: <FontAwesomeIcon icon={faStar} color="yellow" /> {item.tagrate}/10 </p>
+                      <p>Ambience Rated: <FontAwesomeIcon icon={faStar} color="yellow" /> {item.ambiencerate}/10 </p>
                       <p>Tag: {item.tag}</p>
-                      <p>{item.review}</p>
+                      <p style={{fontSize:'20px', fontStyle:'italic'}}>{item.review}</p>
+                      </Font>
                       <span>
-                      {isindislikedby(item.dislikedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleLikes(item._id)}  style={{marginRight:"50%"}} active>{item.likes} {isinlikedby(item.likedBy)?"UnUpvote":"Upvote"} 
+                      {isindislikedby(item.dislikedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleLikes(item._id)}  style={{marginRight:"50%"}} active>{item.likes} {isinlikedby(item.likedBy)?"Upvoted":"Upvote"} 
                           </Button>}
-                          {isinlikedby(item.likedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleDislikes(item._id)} active>{item.dislikes} {isindislikedby(item.dislikedBy)?"UnDownvote":"Downvote"}
+                          {isinlikedby(item.likedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleDislikes(item._id)} active>{item.dislikes} {isindislikedby(item.dislikedBy)?"Downvoted":"Downvote"}
                           </Button>}
                 
               </span>
@@ -426,6 +435,9 @@ function Profile({email2, userID}) {
             :null}
             {showWhich==="about"
             ?<About name={name} dob={dob} email={email}/>
+            :null}
+            {showWhich==="favorites"
+            ?<ProfileFavorites id={id}/>
             :null}
             </div>
         </div>

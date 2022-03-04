@@ -41,6 +41,7 @@ console.log("HashedPwd: ", hash)
 }
 exports.signin = function(req,res){ 
     var countValue = req.body;
+    console.log("Body ", countValue);
     console.log("U are ", countValue.email);
     var data = { 
       "email":countValue.email 
@@ -470,4 +471,55 @@ console.log("HashedPwd: ", hash)
 }); 
 });
       
+}
+exports.addtofav = function(req,res){ 
+  console.log(req.body.resid,req.body.userid)
+  userModel.findOne({"_id": ObjectId(req.body.userid)}, function(err, profile) {
+    console.log("profile Found",profile)
+    profile.favorites.push(req.body.resid)
+    return profile.save()
+});
+return res.send({
+  success:true,
+  message:"Added to favorites"
+})
+}
+exports.checkinfav = function(req,res){ 
+  console.log("Checking if its innfavs",req.body.resid,req.body.userid)
+  userModel.findOne({"_id": ObjectId(req.body.userid)}, function(err, profile) {
+    console.log("profile Found",profile)
+    console.log(profile.favorites.includes(ObjectId(req.body.resid)))
+    
+    return res.send({
+      isexist:profile.favorites.includes(ObjectId(req.body.resid))
+    })
+    
+});
+
+}
+exports.removefromfav = function(req,res){ 
+  console.log(req.body.resid,req.body.userid)
+  userModel.findOne({"_id": ObjectId(req.body.userid)}, function(err, profile) {
+    console.log("profile Found",profile)
+    var index = profile.favorites.indexOf(req.body.resid);
+    if (index !== -1) {
+      profile.favorites.splice(index, 1);
+    }
+    return profile.save()
+});
+return res.send({
+  success:true,
+  message:"Added to favorites"
+})
+}
+exports.getfavorites = async function(req,res){ 
+  console.log(req.params.userid)
+  const userprofile=await userModel.findOne({"_id": ObjectId(req.params.userid)}).populate('favorites')
+  console.log(userprofile.favorites)
+  return res.send({
+    success:true,
+    favorites:userprofile.favorites
+  })
+
+
 }

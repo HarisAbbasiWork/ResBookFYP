@@ -17,6 +17,33 @@ function SignupForm() {
         console.log("EMail in signup form",email)
         e.preventDefault()
         //i will authenticate user
+        if (pass == "" || fname == "" || lname == "" || day == "" || month == "" || year == ""||selectedfile=="") {
+            console.log("Something missed")
+            if (fname == "") {
+                setError("Kindly Add Your First Name Please");
+              return
+            }
+            if (lname == "") {
+                setError("Kindly Add Your Last Name Please");
+              return
+            }
+            if (pass == "") {
+                setError("Kindly Don't Enter Empty Password");
+              return
+            }
+            
+            
+            if (day == "" || month == "" || year == "") {
+                setError("Kindly Enter Date Of Birth Please");
+              return
+            }
+            if (selectedfile=="") {
+                setError("Kindly Upload Profile Picture");
+              return
+            }
+      
+      
+          }
         var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
         if(pattern.test(email)){
             

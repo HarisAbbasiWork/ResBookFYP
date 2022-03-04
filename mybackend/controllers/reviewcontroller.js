@@ -128,6 +128,8 @@ exports.addreview =async function(req,res){
       "placeid": countValue.resname.placeid, 
       "date": countValue.date,
       "rate": countValue.rate,
+      "tagrate": countValue.tagrate,
+      "ambiencerate": countValue.ambiencerate,
       "tag": countValue.tag,
       "review":countValue.review,
       "userid":creden._id,

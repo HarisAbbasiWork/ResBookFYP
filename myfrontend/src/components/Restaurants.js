@@ -44,12 +44,21 @@ function Restaurants() {
         
     }, [])
     return (
-        <div>
+        <div style={{
+          height: '100%',
+          Width: '100vw',
+          backgroundImage: "url(" + '/content/grey2.jpg' + ")",
+          backgroundPosition: 'center',
+          backgroundSize: '100%',
+          backgroundRepeat: 'repeat',
+          backgroundHeight: '100%',
+  
+        }}>
           
             {restaurants.map(restaurant=>(
             <div style={{marginTop:'1%'}}>
-            <div class="jumbo2">
-                <a class="title2" href={'/restaurant/'+restaurant.placeid}>{restaurant.name}</a>
+            <div class="jumbo2" href={'/restaurant/'+restaurant.placeid}>
+                <a class="title2">{restaurant.name}</a>
             </div></div>
             ))}
             <ReactPaginate

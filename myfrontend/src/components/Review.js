@@ -188,9 +188,9 @@ function Review({email2, userID}) {
               <p>Tag: <FontAwesomeIcon icon={faTag} color="blue" /> {item.tag}</p>
               <p>{item.review}</p>
               <span>
-              {isindislikedby(item.dislikedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleLikes(item._id)} style={{marginRight:"50%"}} active >{item.likes} {isinlikedby(item.likedBy)?"UnUpvote":"Upvote"} 
+              {isindislikedby(item.dislikedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleLikes(item._id)} style={{marginRight:"50%"}} active >{item.likes} {isinlikedby(item.likedBy)?"Upvoted":"Upvote"} 
               </Button>}
-              {isinlikedby(item.likedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleDislikes(item._id)} active >{item.dislikes} {isindislikedby(item.dislikedBy)?"UnDownvote":"Downvote"}
+              {isinlikedby(item.likedBy)?null:<Button variant="primary" size="sm" onClick={()=>handleDislikes(item._id)} active >{item.dislikes} {isindislikedby(item.dislikedBy)?"Downvoted":"Downvote"}
               </Button>}
                 
               </span>
