@@ -175,7 +175,11 @@ function Restaurantprofile({ email2, userID, islogged, inputvalue,ishide,setIshi
       })
   }
   const getReviews = (placeid) => {
-    axios.get('http://localhost:5000/getrreviews/' + placeid)
+    axios.get('http://localhost:5000/getrreviews/' + placeid,{
+      headers:{
+          "x-access-token":localStorage.getItem("token")
+      }
+  })
       .then(response => {
         console.log(response.data)
         setItems(response.data)

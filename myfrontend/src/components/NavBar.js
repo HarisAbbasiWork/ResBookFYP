@@ -66,10 +66,7 @@ function NavBar() {
                   
                     <Switch>
                       <Route exact path="/" >
-                      {/* {islogged==="false" 
-                      ? <Button href="/sign-in" style={{marginLeft: '500px',borderRadius: '25px', backgroundColor:'#990505'}} ><FontAwesomeIcon icon={faLocationArrow} color="white" /> Click Here To Login So You Can Add Review</Button>
-                      :null
-                      } */}
+                      
                        <ShowReviews test={test} userID={userID} islogged={islogged} email2={email2} isshownotifications={isshownotifications}/>
                       
                       </Route>

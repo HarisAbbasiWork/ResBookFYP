@@ -5,5 +5,6 @@ var task_controller = require('../controllers/taskcontroller');
     router.post('/addtask',task_controller.addcomment)    
     router.get('/gettasks',task_controller.gettasks)  
     router.post('/updatestatus',task_controller.updatestatus)
-    router.get('/taskscount',task_controller.taskscount)    
+    router.get('/taskscount',task_controller.taskscount) 
+    router.post('/joipractice',task_controller.joipractice)   
     module.exports = router;

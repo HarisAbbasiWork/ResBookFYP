@@ -5,6 +5,8 @@ const nodemailer = require("nodemailer");
 const crypto  = require('crypto')
 const saltRounds = 10;
 var taskModel = require('../models/Task')
+var userModel = require('../models/usermodel')
+var {userschema} = require('../middlewares/joivalidators')
 exports.addcomment =async function(req,res){ 
     console.log("Task: ", req.body.task)
     var data = { 
@@ -62,4 +64,10 @@ exports.addcomment =async function(req,res){
              all:result.map(item => item.count).reduce((prev, curr) => prev + curr, 0)
          })
      })
+  }
+  exports.joipractice =async function(req,res){ 
+    console.log("vales", req.body);
+    const result = await userschema.validate(req.body)
+    console.log(result)
+    
   }

@@ -69,7 +69,11 @@ function Review({email2, userID}) {
   
     }
     const getReview=(id)=>{
-        axios.get('http://localhost:5000/review/'+id)
+        axios.get('http://localhost:5000/review/'+id,{
+          headers:{
+              "x-access-token":localStorage.getItem("token")
+          }
+      })
             .then(response => {
                 console.log("Opened Review Info: ",response.data)
                 setItem(response.data)

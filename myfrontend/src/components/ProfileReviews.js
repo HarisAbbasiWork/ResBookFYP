@@ -10,7 +10,11 @@ function ProfileReviews({id,name}) {
     const [items, setItems]=useState([])
     let history = useHistory();
      const getReviews=async()=>{
-        await axios.get('http://localhost:5000/getreviews')
+        await axios.get('http://localhost:5000/getreviews',{
+          headers:{
+              "x-access-token":localStorage.getItem("token")
+          }
+      })
         .then(response => {
             console.log(response.data)
             setItems(response.data.filter(item=>item.userid == id))

@@ -8,13 +8,20 @@ var userModel = require('../models/usermodel')
 var notificationModel = require('../models/Notifications')
 var reviewModel = require('../models/reviewsmodel')
 var restaurantModel = require('../models/restaurantmodel')
-
-exports.signup = function(req,res){ 
+var jwt = require('jsonwebtoken');
+exports.signup = async function(req,res){ 
     var countValue = req.body;
-  
-  console.log("CountValue is", countValue);
+    console.log("CountValue is", countValue);
+    const ifuser=await userModel.findOne({ email: countValue.email })
+    if(ifuser){
+      res.send({
+        success: false,
+        message:"User Already Exists"
+      });
+    } 
+
   bcrypt.hash(req.body.pass, saltRounds, async (err, hash) => {
-  var data = { 
+  /* var data = { 
     "firstname": countValue.fname, 
     "lastname": countValue.lname,
     "email":countValue.email, 
@@ -34,7 +41,30 @@ console.log("HashedPwd: ", hash)
     if (err) throw err; 
     console.log("Record inserted Successfully"); 
           
-}); 
+});  */
+const newUser = await new userModel({
+  firstname: countValue.fname, 
+  lastname: countValue.lname,
+  email:countValue.email, 
+  propic:countValue.fileurl,
+  password:hash, 
+  DOB: countValue.DOB,
+  friends:[],
+  sentRequests:[],
+  recievedRequests:[]
+}).save();
+if(newUser){
+  res.send({
+    success: true,
+    message:"You are now user"
+  });
+
+}else{
+  res.send({
+    success: false,
+    message:"Request Failed"
+  });
+}
 });
 
       
@@ -63,10 +93,16 @@ exports.signin = function(req,res){
         if (resi === true){
           console.log("Correct details found");
           console.log(collection.firstname)
+          const id=collection._id
+          const token = jwt.sign({id}, "jwtSecret",{
+            expiresIn:3000
+          });
+  
           
   
           return res.send({
             success: true,
+            token: token,
             message: 'Correct Details',
             fname: collection.firstname,
             lname: collection.lastname,
@@ -96,6 +132,47 @@ exports.signin = function(req,res){
   });
 
       
+}
+exports.signin2 = async function(req,res){ 
+  var countValue = req.body;
+  console.log("Body ", countValue);
+  console.log("U are ", countValue.email);
+  const user=await userModel.findOne({ email: countValue.email })
+  if(user){
+    if(await bcrypt.compare(countValue.pass, user.password)){
+      const id=user._id
+      const token = jwt.sign({id}, "jwtSecret",{
+        expiresIn:3000
+      });
+      return res.send({
+        success: true,
+        token: token,
+        message: 'Correct Details',
+        fname: user.firstname,
+        lname: user.lastname,
+        email: user.email,
+        id:user._id,
+        friends:user.friends,
+        propic: user.propic
+      });
+
+
+    }else{
+      return res.send({
+        success: false,
+        message: 'Error: Email and Pass Dont Match'
+      });
+    }
+
+    
+  }else{
+    console.log("Invalid User");
+        return res.send({
+          success: false,
+          message: 'User not exists'
+        });
+
+  }
 }
 exports.updatesettings = async function(req,res){ 
     var updatedprofile = req.body;

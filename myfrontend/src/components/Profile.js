@@ -30,7 +30,11 @@ function Profile({email2, userID}) {
     const [items, setItems]=useState([])
     const [backupitems, setBackupitems]=useState([])
     const getReviews=async()=>{
-        await axios.get('http://localhost:5000/getpreviews/'+params.id)
+        await axios.get('http://localhost:5000/getpreviews/'+params.id,{
+          headers:{
+              "x-access-token":localStorage.getItem("token")
+          }
+      })
         .then(response => {
             console.log(response.data)
             setItems(response.data)

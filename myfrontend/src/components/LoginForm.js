@@ -53,6 +53,8 @@ function LoginForm({props, setEmail2,friends,setUserID,setUserPic, setUser2,setF
             setIslogged("true")
             localStorage.setItem('data', JSON.stringify(response.data))
             console.log("We know evertything now after submission", email)
+            console.log("tt",response.data.token)
+            localStorage.setItem('token', response.data.token)
             history.push('/');
 
           }else{
@@ -233,49 +235,7 @@ function LoginForm({props, setEmail2,friends,setUserID,setUserPic, setUser2,setF
                          perspective: "1px",
                         paddingBottom:"10%"
                     }}>
-{/* //     boxSizing:'border-box',
-//     width: '100%',
-//     overflow: 'hidden',
-//     background: '#fff',
-//     borderRadius: '5px',
-//   //  boxShadow: '0px 10px 34px -15px rgb(0 0 0 / 24%)',
-//     display: 'block',
-//     fontFamily: '"Lato", Arial, sansserif',
-//     fontSize: '16px',
-//     lineHeight: '1.8',
-//     fontWeight: 'normal',
-//     background: '#fff',
-//     color: 'gray',
-    
-//     width: '100%',
-//     paddingRight: '15px',
-//    // paddingLeft: '15px',
-//   // backgroundColor:"transparent",
-//     width:"23%", marginLeft:"38%",
-    
-//     justifycontent: 'center'
-   
-    
 
-    
-    
-   // top:'50%',
-   // left:'50%',<div class="img" style="background-image: url(images/bg-1.jpg);"></div>
-    
-
-
-
-
-}}> */}
-    {/* <div class="row"  >
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section"> </h2>
-				</div>
-			</div> */}
-    {/* <div className='mb-3 position'> */}
-
-    
-            {/* <div> */}
 		
 
             
@@ -388,50 +348,7 @@ function LoginForm({props, setEmail2,friends,setUserID,setUserPic, setUser2,setF
                          perspective: "1px",
                         paddingBottom:"10%"
                     }}>
-{/* //     boxSizing:'border-box',
-//     width: '100%',
-//     overflow: 'hidden',
-//     background: '#fff',
-//     borderRadius: '5px',
-//   //  boxShadow: '0px 10px 34px -15px rgb(0 0 0 / 24%)',
-//     display: 'block',
-//     fontFamily: '"Lato", Arial, sansserif',
-//     fontSize: '16px',
-//     lineHeight: '1.8',
-//     fontWeight: 'normal',
-//     background: '#fff',
-//     color: 'gray',
-    
-//     width: '100%',
-//     paddingRight: '15px',
-//    // paddingLeft: '15px',
-//   // backgroundColor:"transparent",
-//     width:"23%", marginLeft:"38%",
-    
-//     justifycontent: 'center'
-   
-    
 
-    
-    
-   // top:'50%',
-   // left:'50%',<div class="img" style="background-image: url(images/bg-1.jpg);"></div>
-    
-
-
-
-
-}}> */}
-    {/* <div class="row"  >
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section"> </h2>
-				</div>
-			</div> */}
-    {/* <div className='mb-3 position'> */}
-
-    
-            {/* <div> */}
-		
 
             
   

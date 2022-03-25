@@ -99,13 +99,17 @@ function ShowReviews({ test, userID, islogged, email2,isshownotifications }) {
 
   }
   useEffect(() => {
-    axios.get('http://localhost:5000/getreviews')
-      .then(response => {
-        console.log(response.data)
-        setItems(response.data);
-        setItems2(response.data)
-        console.log("API got all reviews bro")
-
+    console.log(localStorage.getItem("token"))
+    axios.get('http://localhost:5000/getreviews',{
+      headers:{
+        "x-access-token":localStorage.getItem("token")
+      }
+    })
+    .then(response => {
+      console.log(response.data)
+      setItems(response.data);
+      setItems2(response.data)
+      console.log("API got all reviews bro")
       })
       .catch(function (error) {
         console.log(error);

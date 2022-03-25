@@ -20,7 +20,7 @@ exports.getreviews =async function(req,res){
           model: "details"
         }
        });
-    console.log(all)
+    //console.log(all)
     res.json(all.reverse())
 
       

@@ -120,7 +120,7 @@ function SignupForm() {
     }
     useEffect(()=>{
         
-    })
+    },[])
     return (
         <div style={{  
             height:'100vh',
